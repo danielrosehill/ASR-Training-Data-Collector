@@ -10,7 +10,7 @@ This is a GUI that I created with Claude Code to facilitate gathering audio trai
 
 The UI is reflective of my objective (ie, training Whisper) but can be adapted for training needs. 
 
-This GUI is built to help with a common task in data prep for audio but which I couldn't find a GUI for (*I'm sure one exists, I just didn't land on it.  If it doesn't already exist, then this is exactly what I find 'vibe coding' so useful for: creating those ultra-specific "things" that haven't been made yet.*).
+This GUI is built to help with a common task in data prep for audio but which I couldn't find a GUI for (*I'm sure one exists, I just didn't land on it.  If it doesn't already exist, then this is exactly what I find 'vibe coding' so useful for: creating those ultra-specific "things" that haven't been made yet and which the economics of supply and demand heavily argue against spending extensive time developing!*).
 
 Namely, it provides a way to:
 

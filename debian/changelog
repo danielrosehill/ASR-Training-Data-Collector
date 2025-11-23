@@ -1,3 +1,9 @@
+whisper-finetuning-data (1.0.15-1) unstable; urgency=medium
+
+  * Fix technical content generation to create coherent sentences when dictionary words are provided
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Sun, 23 Nov 2025 19:37:12 +0200
+
 whisper-finetuning-data (1.0.14-1) unstable; urgency=medium
 
   * Version bump to 1.0.14

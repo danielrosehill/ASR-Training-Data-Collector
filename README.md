@@ -10,7 +10,7 @@ This is a GUI that I created with Claude Code to facilitate gathering audio trai
 
 The UI is reflective of my objective (ie, training Whisper) but can be adapted for training needs. 
 
-This GUI is built to help with a common task in data prep for audio but which I couldn't find a GUI for (I'm sure one exists, I just didn't land on it!).
+This GUI is built to help with a common task in data prep for audio but which I couldn't find a GUI for (*I'm sure one exists, I just didn't land on it.  If it doesn't already exist, then this is exactly what I find 'vibe coding' so useful for: creating those ultra-specific "things" that haven't been made yet.*).
 
 Namely, it provides a way to:
 
@@ -18,9 +18,23 @@ Namely, it provides a way to:
 - Record the matching audio 
 - Preserve the mapping in JSONL  
 
-Gathering training data like this is only mildly mind-numbing. So to give the user some motivation that this will be worth it, there's a little database stats window that computes the total gathered training time on the right. 
+To support fine-tuning Whisper, the system prompts try to create text that will take about 20-30 seconds to read at an average (ish) WPM. That constraint can be removed or - for better reliability - the output can be JSON-constrained.
 
-There are many approaches to training ASR models that are significantly more advanced like this. This GUI was created for those instances in which you don't need a huge volume of training data, but you do want to get it captured. 
+## Gamification!
+
+Gathering training data like this is only mildly mind-numbing.
+
+So to give the user some motivation that this will be worth it, there's a little database stats window that computes the total gathered training time on the right. 
+
+## Does What It Says On the Tin!
+
+There are many approaches to training ASR models that are significantly more advanced like this (like training based on STT-ed material). But - being the opinionated kind of tecchie - these go against my philosophy.
+
+I believe that the best results from AI come when you don't try to get too clever. This GUI was built to facilitate the capture and dataset-formatting of small batches of audio clips narrated by the user.
+
+This GUI was created for those instances in which you don't need a huge volume of training data, but you do want to get it captured. 
+
+## Bells, Whistles, Shortcomings 
 
 Some other bells and whistles:
 
@@ -29,6 +43,10 @@ Some other bells and whistles:
 Shortcomings:
 
 - Getting the LLM to generate sentences that adhere to the input params (including custom vocab when requested) AND which make sense is ..... hard. Some tuning of prompts is advised when trying to get this right. 
+
+Also, by way of FYI:
+
+- I used Open Router for this and GPT 4 mini. Small scale synthetic text generation works perfectly well on smalll and non-SOTA models! This can definitely also work on local inference. Just sub out the API router for a call to Ollama API etc.
 
 Useful features:
 

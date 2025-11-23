@@ -88,23 +88,34 @@ The GUI will open in your browser at http://127.0.0.1:7860
 
 ### Exporting Dataset
 
-Export your collected data to Hugging Face format:
+Export your collected data to Hugging Face-compatible JSONL format:
 ```bash
 python app/export_dataset.py
 ```
 
 This creates an `exported_dataset/` directory with:
-- `metadata.csv` - Transcriptions and metadata
-- `audio/` - WAV files
-- `dataset_info.json` - Dataset statistics
-- `README.md` - Dataset documentation
+- `whisper_train.jsonl` - Training split (70% of samples)
+- `whisper_validation.jsonl` - Validation split (15% of samples)
+- `whisper_test.jsonl` - Test split (15% of samples)
+- `audio/` - WAV audio files
+- `README.md` - Dataset documentation with proper YAML front matter
+
+**Important:** The JSONL format with train/validation/test splits is **required** for proper display on Hugging Face. See [HUGGINGFACE_AUDIO_DATASET_FORMAT.md](HUGGINGFACE_AUDIO_DATASET_FORMAT.md) for detailed format documentation.
 
 ### Loading the Dataset
 
 ```python
 from datasets import load_dataset
 
-dataset = load_dataset("audiofolder", data_dir="./exported_dataset")
+# Load from local directory
+dataset = load_dataset("json", data_files={
+    "train": "exported_dataset/whisper_train.jsonl",
+    "validation": "exported_dataset/whisper_validation.jsonl",
+    "test": "exported_dataset/whisper_test.jsonl"
+})
+
+# Or load from Hugging Face after upload
+dataset = load_dataset("your-username/your-dataset-name")
 ```
 
 ## Data Structure

@@ -100,7 +100,7 @@ This creates an `exported_dataset/` directory with:
 - `audio/` - WAV audio files
 - `README.md` - Dataset documentation with proper YAML front matter
 
-**Important:** The JSONL format with train/validation/test splits is **required** for proper display on Hugging Face. See [HUGGINGFACE_AUDIO_DATASET_FORMAT.md](HUGGINGFACE_AUDIO_DATASET_FORMAT.md) for detailed format documentation.
+**Important:** The JSONL format with train/validation/test splits is **required** for proper display on Hugging Face. See [huggingface-audio-dataset-format.md](huggingface-audio-dataset-format.md) for detailed format documentation.
 
 ### Loading the Dataset
 

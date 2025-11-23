@@ -4,9 +4,9 @@
 
 This document describes the **required format** for audio datasets to properly display on Hugging Face with the audio player interface.
 
-## The Secret Sauce 🎯
+## Key Requirement
 
-The key to a properly-displaying audio dataset on Hugging Face is:
+For proper display on Hugging Face with audio player functionality:
 
 **Use JSONL files with train/validation/test splits, NOT a single JSON manifest file.**
 
@@ -62,9 +62,9 @@ Each line in the JSONL files must be a valid JSON object with these fields:
 {"id": "a8b55d7b", "audio_filepath": "audio/20251123_192556_a8b55d7b.wav", "text": "In our recent project, we utilized Docker to streamline the deployment process.", "duration_seconds": 19.77, "sample_rate": 16000, "style": "formal_technical_explanation", "source": "llm"}
 ```
 
-## What DOESN'T Work ❌
+## Incorrect Formats
 
-### ❌ Single JSON Manifest
+### Single JSON Manifest
 
 This format will **NOT** display properly as an audio dataset:
 
@@ -82,7 +82,7 @@ This format will **NOT** display properly as an audio dataset:
 
 **Problem:** Hugging Face expects JSONL format with splits, not a JSON array.
 
-### ❌ CSV Metadata Only
+### CSV Metadata Only
 
 While metadata.csv works for some purposes, it doesn't provide the audio player functionality that JSONL files do.
 

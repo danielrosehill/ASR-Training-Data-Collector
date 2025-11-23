@@ -1,6 +1,40 @@
 # Whisper Fine-Tuning Data Collector
 
-A GUI application for collecting speech-to-text training data for Whisper fine-tuning. Uses Tatoeba corpus or LLM-generated text prompts and records audio samples in short ~20 second clips.
+![Main Interface](screenshots/v1/1.png)
+
+## Short(ish) Version
+
+(Author: me)
+
+This is a GUI that I created with Claude Code to facilitate gathering audio training data for an ASR fine-tuning project. 
+
+The UI is reflective of my objective (ie, training Whisper) but can be adapted for training needs. 
+
+This GUI is built to help with a common task in data prep for audio but which I couldn't find a GUI for (I'm sure one exists, I just didn't land on it!).
+
+Namely, it provides a way to:
+
+- Generate source truth text according to specific parameters (to support fine-tuning for domain-specific vocab, there's an option to create your own text and another to ask the LLM to use specific words). 
+- Record the matching audio 
+- Preserve the mapping in JSONL  
+
+Gathering training data like this is only mildly mind-numbing. So to give the user some motivation that this will be worth it, there's a little database stats window that computes the total gathered training time on the right. 
+
+There are many approaches to training ASR models that are significantly more advanced like this. This GUI was created for those instances in which you don't need a huge volume of training data, but you do want to get it captured. 
+
+Some other bells and whistles:
+
+- I added a short clip/cut-off logic for saving the audio files. The objective was to avoid capturing the sound of key presses when starting and stopping capture.  
+
+Shortcomings:
+
+- Getting the LLM to generate sentences that adhere to the input params (including custom vocab when requested) AND which make sense is ..... hard. Some tuning of prompts is advised when trying to get this right. 
+
+Useful features:
+
+- I created this GUI for one project then needed it for another. I realised that creating these afresh every time (even vibe coded) was not smart. That's why this GUI supports dataset configs so you can use it for different projects. Remotes are autodetected based on the prescence of a `.git` folder which works for both Hugging Face and Github remotes.
+
+The rest of the readme is by ... Claude!
 
 ## Screenshots
 

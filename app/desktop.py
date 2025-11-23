@@ -1893,33 +1893,55 @@ class MainWindow(QMainWindow):
 
         # Handle technical content with specific terminology
         if content == "technical":
-            tech_clusters = [
-                ["Docker", "Kubernetes", "deployment"],
-                ["API", "REST", "authentication"],
-                ["React", "TypeScript", "component"],
-                ["Git", "GitHub", "commit"],
-                ["PyTorch", "model", "training"],
-                ["database", "PostgreSQL", "query"],
-                ["Linux", "SSH", "server"]
-            ]
+            # If dictionary word is provided, build context around it
+            if dict_word:
+                # Build a coherent technical topic around the dictionary word
+                system_prompt = f"""Generate natural developer speech about technical work.
 
-            cluster = random.choice(tech_clusters)
-            selected_terms = random.sample(cluster, min(2, len(cluster)))
+RULES:
+- 40-50 words total
+- Use {tone_instruction}
+- Format as {format_instruction}
+- Primary focus: create a coherent technical discussion about "{dict_word}"
+- Must use the word "{dict_word}" naturally in context
+- Sound like real developer talk, not documentation
+- The sentence must make technical sense
 
-            system_prompt = f"""Generate natural developer speech about technical work.
+Seed: {random_seed}
+
+Output speech only."""
+
+                user_prompt = f"Create a natural technical discussion about: {dict_word}"
+
+            else:
+                # No dictionary word - use random tech clusters as before
+                tech_clusters = [
+                    ["Docker", "Kubernetes", "deployment"],
+                    ["API", "REST", "authentication"],
+                    ["React", "TypeScript", "component"],
+                    ["Git", "GitHub", "commit"],
+                    ["PyTorch", "model", "training"],
+                    ["database", "PostgreSQL", "query"],
+                    ["Linux", "SSH", "server"]
+                ]
+
+                cluster = random.choice(tech_clusters)
+                selected_terms = random.sample(cluster, min(2, len(cluster)))
+
+                system_prompt = f"""Generate natural developer speech about technical work.
 
 RULES:
 - 40-50 words total
 - Use {tone_instruction}
 - Format as {format_instruction}
 - Include these tech terms naturally: {', '.join(selected_terms)}
-- Sound like real developer talk, not documentation{dict_word_constraint}
+- Sound like real developer talk, not documentation
 
 Seed: {random_seed}
 
 Output speech only."""
 
-            user_prompt = f"Tech context: {', '.join(selected_terms)}"
+                user_prompt = f"Tech context: {', '.join(selected_terms)}"
 
         else:
             # Other content types - topic based on content selection

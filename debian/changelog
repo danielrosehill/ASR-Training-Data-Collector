@@ -1,0 +1,102 @@
+whisper-finetuning-data (1.0.14-1) unstable; urgency=medium
+
+  * Version bump to 1.0.14
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Sun, 23 Nov 2025 17:54:07 +0200
+
+whisper-finetuning-data (1.0.13-1) unstable; urgency=medium
+
+  * Remove all hardcoded user-specific paths
+  * XDG-compliant data storage (~/.local/share/whisper-finetuning-data)
+  * Portable configuration system
+  * Environment variable support (WHISPER_FT_DATA_DIR, XDG_DATA_HOME)
+  * Comprehensive documentation (migration guide, testing guide, etc.)
+  * Fix run.sh to use python3 explicitly
+  * Ready for open-source public release
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Sat, 23 Nov 2024 17:20:00 +0200
+
+whisper-finetuning-data (1.0.12-1) unstable; urgency=medium
+
+  * Add multi-project support with per-profile categories
+  * Generalized audio categories (styles, content types, formats)
+  * Automatic category migration for existing profiles
+  * Easy switching between different dataset projects
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Sat, 23 Nov 2025 16:52:00 +0200
+
+whisper-finetuning-data (1.0.11-1) unstable; urgency=medium
+
+  * Version bump to 1.0.11
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Thu, 20 Nov 2025 19:21:35 +0200
+
+whisper-finetuning-data (1.0.10-1) unstable; urgency=medium
+
+  * Version bump to 1.0.10
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Thu, 20 Nov 2025 19:09:04 +0200
+
+whisper-finetuning-data (1.0.9-1) unstable; urgency=medium
+
+  * Version bump to 1.0.9
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Thu, 20 Nov 2025 19:01:37 +0200
+
+whisper-finetuning-data (1.0.8-1) unstable; urgency=medium
+
+  * Version bump to 1.0.8
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Thu, 20 Nov 2025 18:59:55 +0200
+
+whisper-finetuning-data (1.0.7-1) unstable; urgency=medium
+
+  * Version bump to 1.0.7
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Thu, 20 Nov 2025 18:45:55 +0200
+
+whisper-finetuning-data (1.0.6-1) unstable; urgency=medium
+
+  * Switch to Ollama with Qwen for local LLM generation
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Wed, 19 Nov 2025 19:48:31 +0200
+
+whisper-finetuning-data (1.0.5-1) unstable; urgency=medium
+
+  * Add corpus mode with Tatoeba sentences and custom word injection
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Wed, 19 Nov 2025 19:42:41 +0200
+
+whisper-finetuning-data (1.0.4-1) unstable; urgency=medium
+
+  * Version bump to 1.0.4
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Wed, 19 Nov 2025 17:40:13 +0200
+
+whisper-finetuning-data (1.0.3-1) unstable; urgency=medium
+
+  * Version bump to 1.0.3
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Wed, 19 Nov 2025 16:57:28 +0200
+
+whisper-finetuning-data (1.0.2-1) unstable; urgency=medium
+
+  * Version bump to 1.0.2
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Wed, 19 Nov 2025 16:54:19 +0200
+
+whisper-finetuning-data (1.0.1-1) unstable; urgency=medium
+
+  * Version bump to 1.0.1
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Wed, 19 Nov 2025 16:38:12 +0200
+
+whisper-finetuning-data (1.0.0-1) unstable; urgency=medium
+
+  * Initial release
+  * PyQt6 desktop application for STT data collection
+  * Support for multiple text styles
+  * Audio recording and playback
+  * Dataset manifest management
+
+ -- Daniel Rosehill <public@danielrosehill.com>  Wed, 19 Nov 2025 18:00:00 +0200

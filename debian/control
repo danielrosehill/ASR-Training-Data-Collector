@@ -1,0 +1,22 @@
+Source: whisper-finetuning-data
+Section: sound
+Priority: optional
+Maintainer: Daniel Rosehill <public@danielrosehill.com>
+Build-Depends: debhelper (>= 11), python3-all, dh-python
+Standards-Version: 4.5.1
+Homepage: https://github.com/danielrosehill/Whisper-Fine-Tuning-Data
+
+Package: whisper-finetuning-data
+Architecture: all
+Depends: ${python3:Depends}, ${misc:Depends}, python3-pyqt6, python3-pyqt6.qtmultimedia, python3-numpy, python3-requests, python3-dotenv
+Description: Whisper Fine-Tuning Data Collection Tool
+ A PyQt6 desktop application for collecting speech-to-text training data.
+ Records audio samples paired with text prompts to create datasets for
+ fine-tuning Whisper and other speech recognition models.
+ .
+ Features include:
+  - Multiple text generation styles
+  - Hebrew-English term support
+  - Technical/developer terminology
+  - Audio recording with configurable microphone
+  - Dataset management and export

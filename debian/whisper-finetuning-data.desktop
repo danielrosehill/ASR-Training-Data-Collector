@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Whisper Fine-Tuning Data
+Comment=Collect speech-to-text training data
+Exec=whisper-finetuning-data
+Icon=whisper-finetuning-data
+Terminal=false
+Type=Application
+Categories=AudioVideo;Audio;Utility;
+Keywords=whisper;speech;transcription;audio;training;

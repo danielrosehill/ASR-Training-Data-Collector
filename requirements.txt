@@ -1,0 +1,5 @@
+numpy
+requests
+python-dotenv
+PyQt6
+PyQt6-Qt6

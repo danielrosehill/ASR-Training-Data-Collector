@@ -1,0 +1,29 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE = 1
+export PYBUILD_NAME = whisper-finetuning-data
+
+%:
+	dh $@ --with python3 --buildsystem=pybuild
+
+override_dh_auto_install:
+	dh_auto_install
+	# Install application files
+	install -d debian/whisper-finetuning-data/usr/share/whisper-finetuning-data/app
+	install -m 644 app/*.py debian/whisper-finetuning-data/usr/share/whisper-finetuning-data/app/
+	install -m 644 word-list.txt debian/whisper-finetuning-data/usr/share/whisper-finetuning-data/
+	# Install launcher script
+	install -d debian/whisper-finetuning-data/usr/bin
+	install -m 755 debian/whisper-finetuning-data.sh debian/whisper-finetuning-data/usr/bin/whisper-finetuning-data
+	# Install desktop entry
+	install -d debian/whisper-finetuning-data/usr/share/applications
+	install -m 644 debian/whisper-finetuning-data.desktop debian/whisper-finetuning-data/usr/share/applications/
+	# Install icon
+	install -d debian/whisper-finetuning-data/usr/share/icons/hicolor/128x128/apps
+	install -m 644 debian/whisper-finetuning-data.png debian/whisper-finetuning-data/usr/share/icons/hicolor/128x128/apps/ || true
+
+override_dh_auto_build:
+	# No build step needed for Python script
+
+override_dh_auto_test:
+	# Skip tests during package build

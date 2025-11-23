@@ -1,0 +1,75 @@
+{
+  "profiles": [
+    {
+      "name": "Default Dataset",
+      "path": "/home/daniel/repos/github/ASR-Training-Data-Collector/data",
+      "remote_url": "",
+      "is_default": true,
+      "categories": {
+        "styles": {
+          "casual": "Casual, conversational tone",
+          "formal": "Professional, business-appropriate tone",
+          "informal": "Very informal, chatty",
+          "narrative": "Story-telling, descriptive",
+          "instructional": "Educational, step-by-step",
+          "conversational": "Natural dialogue style"
+        },
+        "content_types": {
+          "general": "General everyday topics",
+          "technical": "Technical or specialized subject matter",
+          "personal": "Personal notes and thoughts",
+          "business": "Business and professional content",
+          "creative": "Creative writing and ideas",
+          "educational": "Learning and teaching content",
+          "communication": "Messages and correspondence",
+          "documentation": "Documentation and reference material"
+        },
+        "formats": {
+          "monologue": "Single speaker, continuous",
+          "conversation": "One side of a conversation",
+          "note": "Quick note or memo",
+          "explanation": "Explaining or describing something",
+          "list": "List or enumeration",
+          "message": "Written message format",
+          "dictation": "Dictating text to be written"
+        }
+      }
+    },
+    {
+      "name": "WPM Test",
+      "path": "/home/daniel/repos/hugging-face/datasets/private/Whisper-WPM-Test",
+      "remote_url": "https://huggingface.co/datasets/danielrosehill/Whisper-WPM-Test",
+      "is_default": false,
+      "categories": {
+        "styles": {
+          "casual": "Casual, conversational tone",
+          "formal": "Professional, business-appropriate tone",
+          "informal": "Very informal, chatty",
+          "narrative": "Story-telling, descriptive",
+          "instructional": "Educational, step-by-step",
+          "conversational": "Natural dialogue style"
+        },
+        "content_types": {
+          "general": "General everyday topics",
+          "technical": "Technical or specialized subject matter",
+          "personal": "Personal notes and thoughts",
+          "business": "Business and professional content",
+          "creative": "Creative writing and ideas",
+          "educational": "Learning and teaching content",
+          "communication": "Messages and correspondence",
+          "documentation": "Documentation and reference material"
+        },
+        "formats": {
+          "monologue": "Single speaker, continuous",
+          "conversation": "One side of a conversation",
+          "note": "Quick note or memo",
+          "explanation": "Explaining or describing something",
+          "list": "List or enumeration",
+          "message": "Written message format",
+          "dictation": "Dictating text to be written"
+        }
+      }
+    }
+  ],
+  "active_profile": "WPM Test"
+}

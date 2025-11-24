@@ -1123,7 +1123,13 @@ class MainWindow(QMainWindow):
         left_panel = QWidget()
         left_layout = QVBoxLayout(left_panel)
 
-        # Microphone selector
+        # Advanced settings (collapsible) - moved mic and mode here
+        self.advanced_settings_group = QGroupBox("⚙ Advanced Settings")
+        self.advanced_settings_group.setCheckable(True)
+        self.advanced_settings_group.setChecked(False)  # Collapsed by default
+        advanced_layout = QVBoxLayout(self.advanced_settings_group)
+
+        # Microphone selector (moved to advanced)
         mic_row = QHBoxLayout()
         self.mic_combo = QComboBox()
         self.populate_audio_devices()
@@ -1134,9 +1140,9 @@ class MainWindow(QMainWindow):
         refresh_mic_btn = QPushButton("Refresh")
         refresh_mic_btn.clicked.connect(self.populate_audio_devices)
         mic_row.addWidget(refresh_mic_btn)
-        left_layout.addLayout(mic_row)
+        advanced_layout.addLayout(mic_row)
 
-        # Mode selector (LLM vs Manual)
+        # Mode selector (LLM vs Manual) - moved to advanced
         mode_row = QHBoxLayout()
         mode_row.addWidget(QLabel("Mode:"))
         self.mode_combo = QComboBox()
@@ -1145,7 +1151,9 @@ class MainWindow(QMainWindow):
         self.mode_combo.currentIndexChanged.connect(self.on_mode_changed)
         mode_row.addWidget(self.mode_combo)
         mode_row.addStretch()
-        left_layout.addLayout(mode_row)
+        advanced_layout.addLayout(mode_row)
+
+        left_layout.addWidget(self.advanced_settings_group)
 
         # Style selector and generate button (for LLM mode)
         self.llm_controls = QWidget()
@@ -1207,11 +1215,11 @@ class MainWindow(QMainWindow):
         self.generation_progress.setMaximumHeight(3)
         llm_info_layout.addWidget(self.generation_progress)
 
-        # Dictionary word input
+        # Dictionary words input (support up to 3 words)
         word_row = QHBoxLayout()
-        word_row.addWidget(QLabel("Dictionary Word:"))
+        word_row.addWidget(QLabel("Dictionary Words:"))
         self.word_input = QLineEdit()
-        self.word_input.setPlaceholderText("Optional: Enter a word to include in generated text...")
+        self.word_input.setPlaceholderText("Optional: Enter 1-3 words (comma-separated) to include in generated text...")
         word_row.addWidget(self.word_input, 1)
 
         self.clear_word_btn = QPushButton("Clear")
@@ -1219,6 +1227,19 @@ class MainWindow(QMainWindow):
         self.clear_word_btn.setFixedWidth(60)
         word_row.addWidget(self.clear_word_btn)
         llm_info_layout.addLayout(word_row)
+
+        # Disambiguation/context input for technical terms
+        disambig_row = QHBoxLayout()
+        disambig_row.addWidget(QLabel("Context/Clarification:"))
+        self.disambig_input = QLineEdit()
+        self.disambig_input.setPlaceholderText("Optional: Specify context or clarify meaning (e.g., 'Docker containerization', 'React framework')...")
+        disambig_row.addWidget(self.disambig_input, 1)
+
+        self.clear_disambig_btn = QPushButton("Clear")
+        self.clear_disambig_btn.clicked.connect(lambda: self.disambig_input.clear())
+        self.clear_disambig_btn.setFixedWidth(60)
+        disambig_row.addWidget(self.clear_disambig_btn)
+        llm_info_layout.addLayout(disambig_row)
 
         left_layout.addWidget(self.llm_info_row)
 
@@ -1865,9 +1886,23 @@ class MainWindow(QMainWindow):
         import random
         random_seed = random.randint(10000, 99999)
 
-        # Get dictionary word if provided
-        dict_word = self.word_input.text().strip() if hasattr(self, 'word_input') else ""
-        dict_word_constraint = f"\nAlso include the word '{dict_word}' naturally." if dict_word else ""
+        # Get dictionary words if provided (up to 3)
+        dict_words_text = self.word_input.text().strip() if hasattr(self, 'word_input') else ""
+        dict_words = [w.strip() for w in dict_words_text.split(',') if w.strip()][:3]  # Max 3 words
+
+        # Get disambiguation/context if provided
+        disambiguation = self.disambig_input.text().strip() if hasattr(self, 'disambig_input') else ""
+
+        dict_word_constraint = ""
+        if dict_words:
+            if len(dict_words) == 1:
+                dict_word_constraint = f"\nCRITICAL: You MUST use the word '{dict_words[0]}' exactly 3 times in the output. Vary the context each time it appears."
+            else:
+                words_formatted = ', '.join([f"'{w}'" for w in dict_words])
+                dict_word_constraint = f"\nCRITICAL: You MUST use each of these words at least 2-3 times: {words_formatted}. Vary the context each time they appear."
+
+        if disambiguation:
+            dict_word_constraint += f"\nContext/clarification: {disambiguation}"
 
         # Build prompt based on selections
 
@@ -1893,40 +1928,77 @@ class MainWindow(QMainWindow):
 
         # Handle technical content with specific terminology
         if content == "technical":
-            # If dictionary word is provided, build context around it
-            if dict_word:
-                # Build a coherent technical topic around the dictionary word
+            # If dictionary words are provided, build coherent context around them
+            if dict_words:
+                # Build a coherent technical topic around the dictionary words
+                words_list = "', '".join(dict_words)
+                context_instruction = f"\nAdditional context: {disambiguation}" if disambiguation else ""
+
                 system_prompt = f"""Generate natural developer speech about technical work.
 
 RULES:
 - 40-50 words total
 - Use {tone_instruction}
 - Format as {format_instruction}
-- Primary focus: create a coherent technical discussion about "{dict_word}"
-- Must use the word "{dict_word}" naturally in context
-- Sound like real developer talk, not documentation
-- The sentence must make technical sense
+- Create a COHERENT technical narrative that naturally incorporates: '{words_list}'{dict_word_constraint}
+- The words should relate to each other in the discussion
+- Sound like real developer talk (e.g., "so I was debugging the Docker container and had to check the Kubernetes logs, then updated the Docker config")
+- NOT like documentation or a list
+- The entire statement must make technical sense as one cohesive thought{context_instruction}
 
 Seed: {random_seed}
 
 Output speech only."""
 
-                user_prompt = f"Create a natural technical discussion about: {dict_word}"
+                user_prompt = f"Create a natural, coherent technical discussion incorporating: {words_list}"
 
             else:
-                # No dictionary word - use random tech clusters as before
-                tech_clusters = [
-                    ["Docker", "Kubernetes", "deployment"],
-                    ["API", "REST", "authentication"],
-                    ["React", "TypeScript", "component"],
-                    ["Git", "GitHub", "commit"],
-                    ["PyTorch", "model", "training"],
-                    ["database", "PostgreSQL", "query"],
-                    ["Linux", "SSH", "server"]
+                # No dictionary words - use improved tech clusters with better coherence
+                tech_scenarios = [
+                    {
+                        "context": "containerization deployment",
+                        "terms": ["Docker", "Kubernetes", "deployment"],
+                        "scenario": "deploying containerized applications"
+                    },
+                    {
+                        "context": "API development",
+                        "terms": ["API", "REST", "authentication", "JWT"],
+                        "scenario": "building and securing APIs"
+                    },
+                    {
+                        "context": "frontend development",
+                        "terms": ["React", "TypeScript", "component", "hooks"],
+                        "scenario": "developing React components"
+                    },
+                    {
+                        "context": "version control",
+                        "terms": ["Git", "GitHub", "branch", "merge"],
+                        "scenario": "managing code with version control"
+                    },
+                    {
+                        "context": "machine learning",
+                        "terms": ["PyTorch", "model", "training", "dataset"],
+                        "scenario": "training ML models"
+                    },
+                    {
+                        "context": "database work",
+                        "terms": ["database", "PostgreSQL", "query", "schema"],
+                        "scenario": "working with databases"
+                    },
+                    {
+                        "context": "server administration",
+                        "terms": ["Linux", "SSH", "server", "systemd"],
+                        "scenario": "managing Linux servers"
+                    },
+                    {
+                        "context": "CI/CD pipeline",
+                        "terms": ["CI/CD", "GitHub Actions", "testing", "deployment"],
+                        "scenario": "setting up automated pipelines"
+                    }
                 ]
 
-                cluster = random.choice(tech_clusters)
-                selected_terms = random.sample(cluster, min(2, len(cluster)))
+                scenario = random.choice(tech_scenarios)
+                selected_terms = random.sample(scenario["terms"], min(2, len(scenario["terms"])))
 
                 system_prompt = f"""Generate natural developer speech about technical work.
 
@@ -1934,14 +2006,17 @@ RULES:
 - 40-50 words total
 - Use {tone_instruction}
 - Format as {format_instruction}
-- Include these tech terms naturally: {', '.join(selected_terms)}
-- Sound like real developer talk, not documentation
+- Context: {scenario["scenario"]}
+- Naturally incorporate: {', '.join(selected_terms)}
+- Create a coherent narrative, not just a list
+- Sound like real developer talk with natural flow
+- Example good output: "so I spent the morning setting up the Docker container, had some issues with the Kubernetes config but got it deployed eventually"
 
 Seed: {random_seed}
 
 Output speech only."""
 
-                user_prompt = f"Tech context: {', '.join(selected_terms)}"
+                user_prompt = f"Tech scenario: {scenario['scenario']}"
 
         else:
             # Other content types - topic based on content selection
